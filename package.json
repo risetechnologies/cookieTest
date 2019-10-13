@@ -1,0 +1,24 @@
+{
+  "name": "cookieTest",
+  "private": true,
+  "scripts": {
+    "start": "ROOT_URL=http://localhost:3001  meteor run --port 3001",
+    "start:android": "ROOT_URL=http://localhost:3001 meteor run android --port 3001",
+    "start:ios": "ROOT_URL=http://localhost:3001 meteor run ios --port 3001",
+    "prettier:check": "prettier --check '**/*.js'",
+    "prettier:write": "prettier --write '**/*.js'"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.6.3",
+    "meteor-node-stubs": "^0.4.1"
+  },
+  "meteor": {
+    "mainModule": {
+      "client": "client/main.js",
+      "server": "server/main.js"
+    }
+  },
+  "devDependencies": {
+    "prettier": "^1.18.2"
+  }
+}

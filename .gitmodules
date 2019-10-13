@@ -1,0 +1,3 @@
+[submodule "packages/Meteor-Cookies"]
+	path = packages/Meteor-Cookies
+	url = https://github.com/VeliovGroup/Meteor-Cookies.git
