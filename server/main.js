@@ -2,7 +2,8 @@ import { Cookies } from "meteor/ostrio:cookies";
 
 new Cookies({
   auto: true,
-  allowQueryStringCookies: true
+  allowQueryStringCookies: true,
+  allowedCordovaOrigin: 'localhost:12600'
 });
 
 WebApp.connectHandlers.use("/__cookie_reset", (req, res) => {
