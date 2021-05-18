@@ -23,8 +23,13 @@ const runTests = async () => {
   const cookieValue = `${Date.now()}`;
   const cookieParam = `__TEST_COOKIE__=${cookieValue}`;
   const ___expectedCookies___ = encodeURI(cookieParam);
-  const cookieResetPath = Meteor.absoluteUrl("/__cookie_reset");
-  const cookieTestPath = Meteor.absoluteUrl("/__cookie_match");
+  let cookieResetPath = Meteor.absoluteUrl("/__cookie_reset");
+  let cookieTestPath = Meteor.absoluteUrl("/__cookie_match");
+
+  if (Meteor.isCordova) {
+    //cookieResetPath = window.WebviewProxy.convertProxyUrl(cookieResetPath);
+    //cookieTestPath = window.WebviewProxy.convertProxyUrl(cookieTestPath);
+  }
   const cookies = new Cookies({ allowQueryStringCookies: true });
 
   cookies.remove();
@@ -134,6 +139,10 @@ const runTests = async () => {
   });
 
   if (Meteor.isCordova) {
+    // Todo: callback not fired
+    // CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK]; should be used
+    // await new Promise((resolve, reject) => window.WebviewProxy.clearCookie(resolve, reject));
+    window.WebviewProxy.clearCookie();
     await new Promise(resolve => {
       HTTP.get(
         cookieTestPath,
@@ -146,7 +155,7 @@ const runTests = async () => {
           assertEqual(
             res.statusCode,
             200,
-            "no cookie from cordova with withCredentials = false"
+            "no cookie from cordova on clearCookie"
           );
           resolve();
         }
@@ -186,4 +195,16 @@ const func = () => {
   }
 };
 
-func();
+
+if (Meteor.isCordova) {
+  const foo = Meteor.absoluteUrl;
+  Meteor.absoluteUrl = function (url, opts) {
+    return window.WebviewProxy.convertProxyUrl(foo(url, opts));
+  }
+  Meteor.absoluteUrl.defaultOptions = foo.defaultOptions;
+  document.addEventListener('deviceready', () => {
+    func();
+  });
+} else {
+  func();
+}
