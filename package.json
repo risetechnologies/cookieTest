@@ -4,7 +4,7 @@
   "scripts": {
     "start": "ROOT_URL=http://localhost:3001  meteor run --port 3001",
     "start:android": "ROOT_URL=http://localhost:3001 meteor run android --port 3001",
-    "start:ios": "ROOT_URL=http://localhost:3001 meteor run ios --port 3001 --mobile-server 192.168.1.48:3001",
+    "start:ios": "ROOT_URL=http://localhost:3001 meteor run ios --port 3001",
     "prettier:check": "prettier --check '**/*.js'",
     "prettier:write": "prettier --write '**/*.js'"
   },
