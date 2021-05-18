@@ -1,3 +1,4 @@
+// Todo: check that the ITP cookie changes are only activated on iOS >= 14.3 and not on Android
 import { Cookies } from "meteor/ostrio:cookies";
 import { HTTP } from "meteor/http";
 import { Meteor } from "meteor/meteor";
@@ -26,10 +27,6 @@ const runTests = async () => {
   let cookieResetPath = Meteor.absoluteUrl("/__cookie_reset");
   let cookieTestPath = Meteor.absoluteUrl("/__cookie_match");
 
-  if (Meteor.isCordova) {
-    //cookieResetPath = window.WebviewProxy.convertProxyUrl(cookieResetPath);
-    //cookieTestPath = window.WebviewProxy.convertProxyUrl(cookieTestPath);
-  }
   const cookies = new Cookies({ allowQueryStringCookies: true });
 
   cookies.remove();
