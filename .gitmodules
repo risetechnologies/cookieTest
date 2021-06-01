@@ -1,0 +1,3 @@
+[submodule "packages/cordova-plugin-webview-proxy"]
+	path = packages/cordova-plugin-webview-proxy
+	url = git@github.com:menelike/cordova-plugin-webview-proxy.git

@@ -1,6 +1,8 @@
 App.info({
-  name: 'cookietest',
+  name: "cookietest",
 });
+
+App.accessRule("*", { type: "navigation" });
 
 App.appendToConfig(`
 <platform name="android">

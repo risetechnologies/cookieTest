@@ -1,1 +1,2 @@
-cordova-plugin-webview-proxy@https://github.com/GEDYSIntraWare/cordova-plugin-webview-proxy.git#0e5bfc9274759e0a2af9c89072a59a7230c9dc15
+cordova-plugin-webview-proxy@file://packages/cordova-plugin-webview-proxy
+cordova-plugin-inappbrowser@5.0.0

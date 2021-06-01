@@ -1,4 +1,7 @@
 import { Cookies } from "meteor/ostrio:cookies";
+import { BrowserPolicy } from "meteor/browser-policy";
+
+BrowserPolicy.framing.allowAll();
 
 new Cookies({
   auto: true,
@@ -14,7 +17,7 @@ WebApp.connectHandlers.use("/__cookie_reset", (req, res) => {
   }
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Set-Cookie", [
-    `${key}=""; Path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`
+    `${key}=""; Path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`,
   ]);
 
   res.writeHead(200);
