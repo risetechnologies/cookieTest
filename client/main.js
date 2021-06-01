@@ -34,10 +34,10 @@ const addInAppBrowserLaunchButton = () => {
   return node;
 };
 
-const addIFrame = () => {
+const addIFrame = (path) => {
   const list = document.getElementById("output");
   const node = document.createElement("iframe");
-  node.src = childPath;
+  node.src = `${window.__meteor_runtime_config__.ROOT_URL}${path}`;
   node.width = "300px";
   node.height = "100px";
   node.style = "border:1px solid black;";
@@ -306,10 +306,15 @@ const runTests = async () => {
       });
 
       await new Promise((resolve, reject) =>
+        window.WebviewProxy.clearCookies(resolve, reject)
+      );
+
+      // either let the server set the cookie or set it in the client
+      await new Promise((resolve, reject) =>
         window.WebviewProxy.setCookie(
           {
             domain: url.hostname,
-            path: "/",
+            path: "/child",
             name: "__TEST_COOKIE__",
             value: cookieValue,
           },
@@ -318,7 +323,9 @@ const runTests = async () => {
         )
       );
       cookies.set("__TEST_COOKIE__", cookieValue);
-      addIFrame();
+      await new Promise((resolve) => cookies.send(resolve));
+
+      addIFrame('child');
       addInAppBrowserLaunchButton();
     } else if (isAndroidCordova) {
       await new Promise((resolve) => {
@@ -341,7 +348,8 @@ const runTests = async () => {
       });
 
       cookies.set("__TEST_COOKIE__", cookieValue);
-      addIFrame();
+      await new Promise((resolve) => cookies.send(resolve));
+      addIFrame('/child');
       addInAppBrowserLaunchButton();
     } else {
       await new Promise((resolve) => {
@@ -362,6 +370,8 @@ const runTests = async () => {
           }
         );
       });
+      cookies.set("__TEST_COOKIE__", cookieValue);
+      addIFrame('/child');
     }
   }
 
@@ -385,7 +395,7 @@ if (isIosCordova) {
   document.addEventListener("deviceready", () => {
     func();
   });
-} else if (isAndroidCordova)  {
+} else if (isAndroidCordova) {
   document.addEventListener("deviceready", () => {
     func();
   });
